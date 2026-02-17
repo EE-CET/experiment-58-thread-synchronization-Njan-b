@@ -1,39 +1,37 @@
 class Table {
 
+    // Synchronized method to avoid interleaving
     synchronized void printTable(int n) {
         for (int i = 1; i <= 5; i++) {
-            System.out.print((n * i) + " ");
+            System.out.print(n * i + " ");
         }
         System.out.println();
     }
 }
 
 class MyThread extends Thread {
-    Table t;
-    int num;
+    Table obj;
+    int number;
 
-    MyThread(Table t, int num) {
-        this.t = t;
-        this.num = num;
+    MyThread(Table obj, int number) {
+        this.obj = obj;
+        this.number = number;
     }
 
     public void run() {
-        t.printTable(num);
+        obj.printTable(number);
     }
 }
 
 public class SynchronizationDemo {
     public static void main(String[] args) {
-        Table obj = new Table();
 
-        MyThread t1 = new MyThread(obj, 5);
-        MyThread t2 = new MyThread(obj, 100);
+        Table table = new Table();
+
+        MyThread t1 = new MyThread(table, 5);
+        MyThread t2 = new MyThread(table, 100);
 
         t1.start();
-        try {
-            t1.join();   // ensure correct order
-        } catch (InterruptedException e) {}
-
         t2.start();
     }
 }
