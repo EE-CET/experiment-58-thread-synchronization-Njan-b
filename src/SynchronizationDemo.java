@@ -3,14 +3,14 @@ class TablePrinter {
     // synchronized method
     synchronized void printTable(int n) {
         for (int i = 1; i <= 5; i++) {
-            System.out.println(n * i);
+            System.out.print(n * i + " ");
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
                 System.out.println(e);
             }
         }
-        System.out.println();
+        System.out.println(); // move to next line after one table completes
     }
 }
 
