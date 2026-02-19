@@ -1,19 +1,24 @@
-class Table {
+class TablePrinter {
 
-    // Synchronized method to avoid interleaving
+    // synchronized method
     synchronized void printTable(int n) {
         for (int i = 1; i <= 5; i++) {
-            System.out.print(n * i + " ");
+            System.out.println(n * i);
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                System.out.println(e);
+            }
         }
         System.out.println();
     }
 }
 
 class MyThread extends Thread {
-    Table obj;
+    TablePrinter obj;
     int number;
 
-    MyThread(Table obj, int number) {
+    MyThread(TablePrinter obj, int number) {
         this.obj = obj;
         this.number = number;
     }
@@ -24,12 +29,13 @@ class MyThread extends Thread {
 }
 
 public class SynchronizationDemo {
+
     public static void main(String[] args) {
 
-        Table table = new Table();
+        TablePrinter printer = new TablePrinter();
 
-        MyThread t1 = new MyThread(table, 5);
-        MyThread t2 = new MyThread(table, 100);
+        MyThread t1 = new MyThread(printer, 5);
+        MyThread t2 = new MyThread(printer, 100);
 
         t1.start();
         t2.start();
