@@ -4,38 +4,32 @@ class TablePrinter {
     synchronized void printTable(int n) {
         for (int i = 1; i <= 5; i++) {
             System.out.print(n * i + " ");
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                System.out.println(e);
-            }
         }
-        System.out.println(); // move to next line after one table completes
+        System.out.println();
     }
 }
 
 class MyThread extends Thread {
-    TablePrinter obj;
-    int number;
+    TablePrinter t;
+    int num;
 
-    MyThread(TablePrinter obj, int number) {
-        this.obj = obj;
-        this.number = number;
+    MyThread(TablePrinter t, int num) {
+        this.t = t;
+        this.num = num;
     }
 
     public void run() {
-        obj.printTable(number);
+        t.printTable(num);
     }
 }
 
 public class SynchronizationDemo {
-
     public static void main(String[] args) {
 
-        TablePrinter printer = new TablePrinter();
+        TablePrinter obj = new TablePrinter();
 
-        MyThread t1 = new MyThread(printer, 5);
-        MyThread t2 = new MyThread(printer, 100);
+        MyThread t1 = new MyThread(obj, 5);
+        MyThread t2 = new MyThread(obj, 100);
 
         t1.start();
         t2.start();
